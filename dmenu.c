@@ -369,9 +369,16 @@ keypress(XKeyEvent *ev) {
 	case XK_Tab:
 		if(!sel)
 			return;
+        if(!strcmp(text, sel->text)) {
+		    if(sel && sel->right && (sel = sel->right) == next) {
+                sel = curr = next;
+                calcoffsets();
+            }
+        }
+        fprintf(stderr, "copying\n");
 		strncpy(text, sel->text, sizeof text);
 		cursor = strlen(text);
-		match(True);
+		/* match(True); */
 		break;
 	}
 	drawmenu();
